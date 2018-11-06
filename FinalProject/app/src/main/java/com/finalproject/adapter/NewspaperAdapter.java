@@ -9,15 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finalproject.R;
-import com.finalproject.model.newspaper;
+import com.finalproject.model.Newspaper;
 
 import java.util.List;
 
 public class NewspaperAdapter  extends BaseAdapter {
-    private List<newspaper> items;
+    private List<Newspaper> items;
     private Activity activity;
 
-    public NewspaperAdapter(Activity activity, List<newspaper> items) {
+    public NewspaperAdapter(Activity activity, List<Newspaper> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -39,7 +39,7 @@ public class NewspaperAdapter  extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        newspaper itemCurrent = items.get(position);
+        Newspaper itemCurrent = items.get(position);
         LayoutInflater inflater = activity.getLayoutInflater();
         convertView = inflater.inflate(R.layout.item_menu_view, null);
 //        set name of menu

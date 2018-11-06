@@ -1,14 +1,10 @@
 package com.finalproject.model;
 
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
-public class menu {
+public class Menu {
     public static final String KEY_HOME = "Home";
     public static final String KEY_FOLLOW = "MENU_FOLLOW";
     public static final String KEY_CATEGORY = "MENU_CATEGORY";
@@ -17,9 +13,9 @@ public class menu {
     private String key;
     private String name;
 
-    public menu(){
+    public Menu(){
     }
-    public menu(String key,String name){
+    public Menu(String key,String name){
         this.key    = key;
         this.name   = name;
     }
@@ -40,11 +36,11 @@ public class menu {
     }
 
 //    get list menu
-    public List<menu> getListMenu(){
-        List<menu> result = new ArrayList<menu>();
-        result.add(new menu(menu.KEY_HOME,"Home"));
-        result.add(new menu(menu.KEY_FOLLOW,"Theo dõi"));
-        result.add(new menu(menu.KEY_CATEGORY,"Danh mục"));
+    public List<Menu> getListMenu(){
+        List<Menu> result = new ArrayList<Menu>();
+        result.add(new Menu(Menu.KEY_HOME,"Home"));
+        result.add(new Menu(Menu.KEY_FOLLOW,"Theo dõi"));
+        result.add(new Menu(Menu.KEY_CATEGORY,"Danh mục"));
         return result;
     }
 

@@ -1,19 +1,19 @@
 package com.finalproject.model;
 
-public class newspaper {
+public class Newspaper {
     private int id;
     private String url_image;
     private String title;
     private String introduce;
 
-    public newspaper(int id, String url_image, String title, String introduce) {
+    public Newspaper(int id, String url_image, String title, String introduce) {
         this.id = id;
         this.url_image = url_image;
         this.title = title;
         this.introduce = introduce;
     }
 
-    public newspaper() {
+    public Newspaper() {
     }
 
 

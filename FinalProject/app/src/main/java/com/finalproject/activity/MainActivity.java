@@ -1,4 +1,4 @@
-package com.finalproject;
+package com.finalproject.activity;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.finalproject.R;
 import com.finalproject.adapter.MenuAdapter;
-import com.finalproject.model.menu;
+import com.finalproject.model.Menu;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout contentMain;
     private NavigationView navigationView;
     private ListView lvMenu;
-    private List<menu> items;
+    private List<Menu> items;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 //        get list menu
-        menu mMenu = new menu();
+        Menu mMenu = new Menu();
         items = mMenu.getListMenu();
 //        create adapter
         MenuAdapter adapterTest = new MenuAdapter(this,items);
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                menu menuSelected = items.get(position);
+                Menu menuSelected = items.get(position);
                 // close drawer when item is tapped
                 drawerLayout.closeDrawers();
                 changeActivity(menuSelected.getKey());

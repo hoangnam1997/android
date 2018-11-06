@@ -3,29 +3,37 @@ package com.finalproject.adapter;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.finalproject.R;
-import com.finalproject.model.category;
-import com.finalproject.model.menu;
+import com.finalproject.TextConfig;
+import com.finalproject.model.Category;
+import com.finalproject.response.CategoryResponse;
+import com.finalproject.model.Menu;
+import com.finalproject.ultils.Server;
+import com.finalproject.ultils.Service;
 
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 public class MenuAdapter extends BaseAdapter {
-    private List<menu> items;
+    private List<Menu> items;
+    List<Category> aCategory;
     private Activity activity;
 
-    public MenuAdapter(Activity activity, List<menu> items) {
+    public MenuAdapter(Activity activity, List<Menu> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -47,7 +55,7 @@ public class MenuAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        menu itemCurrent = items.get(position);
+        Menu itemCurrent = items.get(position);
         LayoutInflater inflater = activity.getLayoutInflater();
         convertView = inflater.inflate(R.layout.item_menu_view, null);
 //        set name of menu
@@ -59,16 +67,16 @@ public class MenuAdapter extends BaseAdapter {
     }
 
 //    set icon of menu
-    public void setImageViewMenu(View convertView,menu mMenu){
+    public void setImageViewMenu(View convertView,Menu mMenu){
         ImageView imgIconMenu = (ImageView)convertView.findViewById(R.id.imgIconMenu);
         switch (mMenu.getKey()){
-            case menu.KEY_HOME:
+            case Menu.KEY_HOME:
                 imgIconMenu.setImageResource(R.drawable.ic_home);
                 break;
-            case menu.KEY_FOLLOW:
+            case Menu.KEY_FOLLOW:
                 imgIconMenu.setImageResource(R.drawable.ic_follow);
                 break;
-            case menu.KEY_CATEGORY:
+            case Menu.KEY_CATEGORY:
                 imgIconMenu.setImageResource(R.drawable.ic_category);
 //                set content of category
                 setContentCategory(convertView);
@@ -100,16 +108,31 @@ public class MenuAdapter extends BaseAdapter {
     }
 
 //    set content
-    public void setContentCategory(View convertView){
+    public void setContentCategory(final View convertView){
+//        get data
+        Service mService = Server.getService();
+        mService.getCategory().enqueue(new Callback<CategoryResponse>(){
+            @Override
+            public void onResponse(Response<CategoryResponse> response, Retrofit retrofit) {
+                aCategory = response.body().getListCategory();
+                setViewCategory(convertView,aCategory);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(activity, TextConfig.TEXT_000001,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+//    set list category
+    public void setViewCategory(View convertView,List<Category> aCategory){
         TableLayout tbLayout = (TableLayout)convertView.findViewById(R.id.tlContent);
 //        create new table row
         TableRow row= getTableRow();
-//        get data
-        category mCaategory = new category();
-        List<category> aCategory = mCaategory.getCategory();
         int countItem = aCategory.size();
         for (int i = 1; i <= countItem;i++){
-            category mCurrentCategory = aCategory.get(i-1);
+            Category mCurrentCategory = aCategory.get(i-1);
             Button addBtn = createButotn(mCurrentCategory.getTitle());
 //            set event onclick
             addBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,15 +144,15 @@ public class MenuAdapter extends BaseAdapter {
             });
 //            add view to row
             row.addView(addBtn);
-            if(i == countItem && (i!= 0 && (i%(menu.MAX_ITEM_IN_ROW) != 0))){
-                int j = i%(menu.MAX_ITEM_IN_ROW)+1;
-                for(;j<=menu.MAX_ITEM_IN_ROW;j++){
+            if(i == countItem && (i!= 0 && (i%(Menu.MAX_ITEM_IN_ROW) != 0))){
+                int j = i%(Menu.MAX_ITEM_IN_ROW)+1;
+                for(;j<=Menu.MAX_ITEM_IN_ROW;j++){
                     Button addBtnNew = createButotn("");
                     row.addView(addBtnNew);
                 }
             }
 //            check new raw
-            if(i == countItem || (i!= 0 && (i%(menu.MAX_ITEM_IN_ROW) == 0))){
+            if(i == countItem || (i!= 0 && (i%(Menu.MAX_ITEM_IN_ROW) == 0))){
                 tbLayout.addView(row);
                 row = getTableRow();
             }
