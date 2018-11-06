@@ -1,4 +1,4 @@
-package com.finalproject;
+package com.finalproject.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -16,11 +16,11 @@ import android.widget.Toast;
 
 import com.finalproject.R;
 import com.finalproject.config.TextConfig;
-import com.finalproject.Category;
-import com.finalproject.CategoryResponse;
-import com.finalproject.Menu;
+import com.finalproject.model.Category;
+import com.finalproject.model.Menu;
+import com.finalproject.response.CategoryResponse;
 import com.finalproject.ultils.Server;
-import com.finalproject.Service;
+import com.finalproject.ultils.Service;
 
 import java.util.List;
 

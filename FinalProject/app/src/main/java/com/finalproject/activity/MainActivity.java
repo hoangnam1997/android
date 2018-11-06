@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.finalproject.R;
-import com.finalproject.MenuAdapter;
-import com.finalproject.Menu;
+import com.finalproject.adapter.MenuAdapter;
+import com.finalproject.model.Menu;
 
 import java.util.List;
 

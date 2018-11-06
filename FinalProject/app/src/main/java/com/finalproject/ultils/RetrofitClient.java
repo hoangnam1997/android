@@ -1,4 +1,4 @@
-package com.finalproject;
+package com.finalproject.ultils;
 
 
 import retrofit.GsonConverterFactory;

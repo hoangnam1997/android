@@ -1,6 +1,6 @@
-package com.finalproject;
+package com.finalproject.response;
 
-import com.finalproject.Category;
+import com.finalproject.model.Category;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
