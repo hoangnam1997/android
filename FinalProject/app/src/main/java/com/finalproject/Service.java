@@ -1,6 +1,4 @@
-package com.finalproject.ultils;
-
-import com.finalproject.response.CategoryResponse;
+package com.finalproject;
 
 import retrofit.http.GET;
 import retrofit.Call;

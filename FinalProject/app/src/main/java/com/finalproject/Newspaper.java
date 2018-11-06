@@ -1,4 +1,4 @@
-package com.finalproject.model;
+package com.finalproject;
 
 public class Newspaper {
     private int id;

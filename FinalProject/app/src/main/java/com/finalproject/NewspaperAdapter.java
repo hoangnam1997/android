@@ -1,4 +1,4 @@
-package com.finalproject.adapter;
+package com.finalproject;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finalproject.R;
-import com.finalproject.model.Newspaper;
+import com.finalproject.Newspaper;
 
 import java.util.List;
 

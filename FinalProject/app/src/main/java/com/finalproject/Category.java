@@ -1,4 +1,4 @@
-package com.finalproject.model;
+package com.finalproject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
