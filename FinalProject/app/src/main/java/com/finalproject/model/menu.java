@@ -11,6 +11,8 @@ import java.util.ListIterator;
 public class menu {
     public static final String KEY_HOME = "Home";
     public static final String KEY_FOLLOW = "MENU_FOLLOW";
+    public static final String KEY_CATEGORY = "MENU_CATEGORY";
+    public static final int MAX_ITEM_IN_ROW = 2;
 
     private String key;
     private String name;
@@ -40,8 +42,9 @@ public class menu {
 //    get list menu
     public List<menu> getListMenu(){
         List<menu> result = new ArrayList<menu>();
-        result.add(new menu("MENU_HOME","Home"));
-        result.add(new menu("MENU_FOLLOW","Theo dõi"));
+        result.add(new menu(menu.KEY_HOME,"Home"));
+        result.add(new menu(menu.KEY_FOLLOW,"Theo dõi"));
+        result.add(new menu(menu.KEY_CATEGORY,"Danh mục"));
         return result;
     }
 

@@ -2,21 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-    <ImageView
-        android:id="@+id/imgIconMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_home"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        />
-    <TextView
-        android:id="@+id/txtName"
-        android:gravity = "center|left|left"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/linearTitle"
         android:layout_width="match_parent"
-        android:textColor="@color/blue"
-        android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgIconMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_home"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/txtName"
+            android:gravity = "center|left|left"
+            android:layout_width="match_parent"
+            android:textColor="@color/blue"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <TableLayout android:layout_height="wrap_content"
+        android:id="@+id/tlContent"
+        android:layout_width="match_parent"
+        >
+    </TableLayout>
 </LinearLayout>
+
 
