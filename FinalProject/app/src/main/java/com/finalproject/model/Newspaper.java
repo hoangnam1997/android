@@ -1,16 +1,36 @@
 package com.finalproject.model;
 
-public class Newspaper {
-    private int id;
-    private String url_image;
-    private String title;
-    private String introduce;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public Newspaper(int id, String url_image, String title, String introduce) {
+public class Newspaper {
+    public static final String KEY_LINK = "Link";
+    public static final String KEY_TITLE = "Title";
+    @SerializedName("id")
+    @Expose
+    private int id;
+
+    @SerializedName("thumb_art")
+    @Expose
+    private String thumb_art;
+
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("description")
+    @Expose
+    private String description;
+
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+    public Newspaper(int id, String thumb_art, String title, String description) {
         this.id = id;
-        this.url_image = url_image;
+        this.thumb_art = thumb_art;
         this.title = title;
-        this.introduce = introduce;
+        this.description = description;
     }
 
     public Newspaper() {
@@ -25,14 +45,6 @@ public class Newspaper {
         this.id = id;
     }
 
-    public String getUrl_image() {
-        return url_image;
-    }
-
-    public void setUrl_image(String url_image) {
-        this.url_image = url_image;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -41,11 +53,28 @@ public class Newspaper {
         this.title = title;
     }
 
-    public String getIntroduce() {
-        return introduce;
+
+    public String getDescription() {
+        return description;
     }
 
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getThumb_art() {
+        return thumb_art;
+    }
+
+    public void setThumb_art(String thumb_art) {
+        this.thumb_art = thumb_art;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

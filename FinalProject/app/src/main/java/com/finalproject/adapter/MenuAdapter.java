@@ -74,7 +74,7 @@ public class MenuAdapter extends BaseAdapter {
                 imgIconMenu.setImageResource(R.drawable.ic_home);
                 break;
             case Menu.KEY_FOLLOW:
-                imgIconMenu.setImageResource(R.drawable.ic_follow);
+                imgIconMenu.setImageResource(R.drawable.heart);
                 break;
             case Menu.KEY_CATEGORY:
                 imgIconMenu.setImageResource(R.drawable.ic_category);

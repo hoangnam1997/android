@@ -1,5 +1,6 @@
 package com.finalproject.activity;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,12 +12,25 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.finalproject.R;
 import com.finalproject.adapter.MenuAdapter;
+import com.finalproject.adapter.NewspaperAdapter;
+import com.finalproject.config.TextConfig;
 import com.finalproject.model.Menu;
+import com.finalproject.model.Newspaper;
+import com.finalproject.response.CategoryResponse;
+import com.finalproject.response.NewspaperResponse;
+import com.finalproject.ultils.Server;
+import com.finalproject.ultils.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ListView lvMenu;
     private List<Menu> items;
+    private List<Newspaper> contents;
+    private ListView lvContent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         contentMain     = (LinearLayout) findViewById(R.id.contentMain);
         navigationView  = (NavigationView) findViewById(R.id.navigationView);
         lvMenu = (ListView) findViewById(R.id.lvMenu);
-
+        lvContent = (ListView)findViewById(R.id.lvContent);
     }
 
 //    set list menu and event click on menu
@@ -77,13 +93,44 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    public function change activity when click item on menu
-    public void changeActivity(String key){
-
-    }
 
 //    set content view list newspaper
     public void setViewNewspaper(){
+        Service mService = Server.getService();
+        mService.getHome().enqueue(new Callback<NewspaperResponse>(){
+            @Override
+            public void onResponse(Response<NewspaperResponse> response, Retrofit retrofit) {
+                contents = response.body().getListNewspaper();
+                NewspaperAdapter adapterTest = new NewspaperAdapter(MainActivity.this,contents);
+                lvContent.setAdapter(adapterTest);
+                lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Newspaper mNewspaper = contents.get(position);
+                        getViewNews(mNewspaper);
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(MainActivity.this, TextConfig.TEXT_000001,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+//    public function change activity when click item on menu
+    public void changeActivity(String key){
+        switch (key){
+            case Menu.KEY_HOME:
+                setViewNewspaper();
+                break;
+        }
+    }
 
+//    start intent for newspaper
+    public void getViewNews(Newspaper mNewspaper){
+        Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
+        intent.putExtra(Newspaper.KEY_LINK,mNewspaper.getUrl());
+        intent.putExtra(Newspaper.KEY_TITLE,mNewspaper.getTitle());
+        startActivity(intent);
     }
 }
