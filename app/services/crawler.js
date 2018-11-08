@@ -56,7 +56,7 @@ main.get_menu = async () => {
 main.crawlerData = async (url = 'https://vnexpress.net') => {
     let $ = await main.crawlerApi(url);
     let datas = [];
-    let promises = $('.container .sidebar_home_1 article.list_news').each((index, ele) => {
+    let promises = $('.container  article.list_news').each((index, ele) => {
         let url = $(ele).find('.title_news a:first-child').attr('href');
         let title = $(ele).find('.title_news a:first-child').attr('title');
         let thumb_art = $(ele).find('.thumb_art a:first-child img').attr('data-original');

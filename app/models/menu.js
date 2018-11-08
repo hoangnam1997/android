@@ -40,4 +40,14 @@ main.getMenu = async () => {
     });
 };
 
+main.getItemId = async (id) => {
+    return new Promise(resolve => {
+        menuModels.findOne({id: parseFloat(id)}, {_id: 0}, (err, docs) => {
+            if (err !== null) {
+                resolve(null);
+            }
+            resolve(docs);
+        });
+    });
+};
 

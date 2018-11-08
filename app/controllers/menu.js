@@ -19,9 +19,15 @@ main.get_menu = async (req, res, next) => {
 
 };
 main.get_id = async (req, res, next) => {
-    let datas = {};
-    datas['id'] = req.params;
-    req.result = datas;
+    let params = req.params;
+    let id = params['id'];
+    let item = await menuModel.getItemId(id);
+    let datas = [];
+    if (item !== null) {
+        datas = await crawler.crawlerData(item['url']);
+    }
+
+    req.result = {'record': datas};
     res.send(req.result);
 
 };
