@@ -1,24 +1,30 @@
 package com.finalproject.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finalproject.R;
-import com.finalproject.config.TextConfig;
+import com.finalproject.activity.MainActivity;
+import com.finalproject.activity.WebViewActivity;
 import com.finalproject.model.Category;
 import com.finalproject.model.Menu;
+import com.finalproject.model.Newspaper;
 import com.finalproject.response.CategoryResponse;
+import com.finalproject.response.NewspaperResponse;
 import com.finalproject.ultils.Server;
 import com.finalproject.ultils.Service;
 
@@ -32,6 +38,7 @@ public class MenuAdapter extends BaseAdapter {
     private List<Menu> items;
     List<Category> aCategory;
     private Activity activity;
+    private ListView lvContent;
 
     public MenuAdapter(Activity activity, List<Menu> items) {
         this.activity = activity;
@@ -119,7 +126,7 @@ public class MenuAdapter extends BaseAdapter {
             }
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(activity, TextConfig.TEXT_000001,Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.app_error),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -132,14 +139,16 @@ public class MenuAdapter extends BaseAdapter {
         TableRow row= getTableRow();
         int countItem = aCategory.size();
         for (int i = 1; i <= countItem;i++){
-            Category mCurrentCategory = aCategory.get(i-1);
+            final Category mCurrentCategory = aCategory.get(i-1);
             Button addBtn = createButotn(mCurrentCategory.getTitle());
 //            set event onclick
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ((MainActivity)activity).getSupportActionBar().setTitle(activity.getString(R.string.app_name) + " (" +mCurrentCategory.getTitle() +")");
                     DrawerLayout drawerLayout = (DrawerLayout) activity.findViewById(R.id.drawerLayout);
                     drawerLayout.closeDrawers();
+                    setViewCategory(mCurrentCategory.getId());
                 }
             });
 //            add view to row
@@ -159,5 +168,37 @@ public class MenuAdapter extends BaseAdapter {
         }
     }
 
+    //    set content view list newspaper
+    public void setViewCategory(int id){
+        lvContent = (ListView)activity.findViewById(R.id.lvContent);
+        Service mService = Server.getService();
+        mService.getNewspaper(id).enqueue(new Callback<NewspaperResponse>(){
+            @Override
+            public void onResponse(Response<NewspaperResponse> response, Retrofit retrofit) {
+                final List<Newspaper> contents = response.body().getListNewspaper();
+                NewspaperAdapter adapterTest = new NewspaperAdapter(activity,contents);
+                lvContent.setAdapter(adapterTest);
+                lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Newspaper mNewspaper = contents.get(position);
+                        getViewNews(mNewspaper);
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(activity, activity.getString(R.string.app_error),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //    start intent for newspaper
+    public void getViewNews(Newspaper mNewspaper){
+        Intent intent = new Intent(activity,WebViewActivity.class);
+        intent.putExtra(Newspaper.KEY_LINK,mNewspaper.getUrl());
+        intent.putExtra(Newspaper.KEY_TITLE,mNewspaper.getTitle());
+        activity.startActivity(intent);
+    }
 
 }

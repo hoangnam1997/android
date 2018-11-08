@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.finalproject.R;
 import com.finalproject.adapter.MenuAdapter;
 import com.finalproject.adapter.NewspaperAdapter;
-import com.finalproject.config.TextConfig;
 import com.finalproject.model.Menu;
 import com.finalproject.model.Newspaper;
 import com.finalproject.response.CategoryResponse;
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 //    set content view list newspaper
     public void setViewNewspaper(){
         Service mService = Server.getService();
-        mService.getHome().enqueue(new Callback<NewspaperResponse>(){
+        mService.getNewspaper().enqueue(new Callback<NewspaperResponse>(){
             @Override
             public void onResponse(Response<NewspaperResponse> response, Retrofit retrofit) {
                 contents = response.body().getListNewspaper();
@@ -113,14 +112,16 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(MainActivity.this, TextConfig.TEXT_000001,Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, MainActivity.this.getString(R.string.app_error),Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 //    public function change activity when click item on menu
     public void changeActivity(String key){
         switch (key){
             case Menu.KEY_HOME:
+                getSupportActionBar().setTitle(this.getString(R.string.app_name));
                 setViewNewspaper();
                 break;
         }

@@ -5,11 +5,16 @@ import com.finalproject.response.NewspaperResponse;
 
 import retrofit.http.GET;
 import retrofit.Call;
+import retrofit.http.Query;
+
 public interface Service {
 //    menu category
     @GET("/menu")
     Call<CategoryResponse> getCategory();
     //    menu
     @GET("/home")
-    Call<NewspaperResponse> getHome();
+    Call<NewspaperResponse> getNewspaper();
+    @GET("/menu")
+    Call<NewspaperResponse> getNewspaper(@Query("id") int id);
+
 }

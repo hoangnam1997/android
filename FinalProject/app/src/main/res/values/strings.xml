@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Báo đây báo đây</string>
-    <string name="app_head_menu">Báo đây báo đây</string>
+    <string name="app_name">Báo Mới</string>
+    <string name="app_head_menu">Báo mới</string>
+    <string name="app_error">Không timg thấy dữ liệu</string>
 </resources>
