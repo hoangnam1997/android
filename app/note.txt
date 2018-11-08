@@ -1,0 +1,16 @@
+trungtruc / EtaCeusmvt SSH
+
+port 22 nha em
+
+trungtruc_cuibap / yUxLMygFyT FTP
+
+/home/trungtruc/web/tructt.laptrinhaz.com/public_html
+
+use m01
+db.createUser(
+  {
+    user: "trucvip",
+    pwd: "truccuibap123",
+    roles: [ { role: "dbOwner", db: "m01" } ]
+  }
+)
