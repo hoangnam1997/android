@@ -5,14 +5,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+
 public abstract class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "dbNewspaper";
-    private String tb_name;
+    protected static final int DATABASE_VERSION = 1;
+    protected static final String DATABASE_NAME = "dbNewspaper";
+    protected String tb_name;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     @Override
     public  void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + tb_name);
@@ -29,9 +31,8 @@ public abstract class DbHelper extends SQLiteOpenHelper {
 //            + KEY_CLASS + " TEXT" + ")";
 //        db.execSQL(SQL_String);
 
-    public abstract void setTb_name(String tb_name);
+    public abstract void setTb_name();
 
-//
 //    public void insertStudent(Student student) {
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        String nullColumnHack = null; // Allow null value

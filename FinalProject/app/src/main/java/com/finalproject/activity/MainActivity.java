@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.finalproject.R;
 import com.finalproject.adapter.MenuAdapter;
 import com.finalproject.adapter.NewspaperAdapter;
+import com.finalproject.helper.NewspaperHelper;
 import com.finalproject.model.Menu;
 import com.finalproject.model.Newspaper;
 import com.finalproject.response.CategoryResponse;
@@ -99,20 +100,25 @@ public class MainActivity extends AppCompatActivity {
         mService.getNewspaper().enqueue(new Callback<NewspaperResponse>(){
             @Override
             public void onResponse(Response<NewspaperResponse> response, Retrofit retrofit) {
-                contents = response.body().getListNewspaper();
-                NewspaperAdapter adapterTest = new NewspaperAdapter(MainActivity.this,contents);
-                lvContent.setAdapter(adapterTest);
-                lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Newspaper mNewspaper = contents.get(position);
-                        getViewNews(mNewspaper);
-                    }
-                });
+                setNewspaperByArray(response.body().getListNewspaper());
             }
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(MainActivity.this, MainActivity.this.getString(R.string.app_error),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+//    set content view list newspaper by array
+    public void setNewspaperByArray(List<Newspaper> listNewspaper){
+        contents = listNewspaper;
+        NewspaperAdapter adapterTest = new NewspaperAdapter(MainActivity.this,contents);
+        lvContent.setAdapter(adapterTest);
+        lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Newspaper mNewspaper = contents.get(position);
+                getViewNews(mNewspaper);
             }
         });
     }
@@ -123,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
             case Menu.KEY_HOME:
                 getSupportActionBar().setTitle(this.getString(R.string.app_name));
                 setViewNewspaper();
+                break;
+            case Menu.KEY_FOLLOW:
+                NewspaperHelper newspaperHelper = new NewspaperHelper(this);
+                List<Newspaper> listNewspaper = newspaperHelper.getAllNewspaper();
+                setNewspaperByArray(listNewspaper);
                 break;
         }
     }

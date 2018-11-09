@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finalproject.R;
+import com.finalproject.helper.NewspaperHelper;
 import com.finalproject.model.Newspaper;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +46,7 @@ public class NewspaperAdapter  extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Newspaper itemCurrent = items.get(position);
+        setIsFollow(itemCurrent);
         LayoutInflater inflater = activity.getLayoutInflater();
         convertView = inflater.inflate(R.layout.item_newspaper, null);
 //        set name of menu
@@ -60,14 +62,42 @@ public class NewspaperAdapter  extends BaseAdapter {
     }
 
 //    set event click
-    public void clickFollow(Newspaper itemCurrent,View convertView){
-        Button btnFollow = (Button) convertView.findViewById(R.id.btnFollow);
+    public void clickFollow(final Newspaper itemCurrent, View convertView){
+        final Button btnFollow = (Button) convertView.findViewById(R.id.btnFollow);
+        if(itemCurrent.isFollow()){
+            btnFollow.setBackgroundResource(R.drawable.heart);
+        }else{
+            btnFollow.setBackgroundResource(R.drawable.heart2);
+        }
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setBackgroundResource(R.drawable.heart);
+                NewspaperHelper newspaperHelper = new NewspaperHelper(activity);
+                itemCurrent.setFollow(!itemCurrent.isFollow());
+                if(itemCurrent.isFollow()){
+                    btnFollow.setBackgroundResource(R.drawable.heart);
+                }else{
+                    btnFollow.setBackgroundResource(R.drawable.heart2);
+                }
+                if(itemCurrent.isFollow()){
+                    newspaperHelper.insert(itemCurrent);
+                    v.setBackgroundResource(R.drawable.heart);
+                }else{
+                    newspaperHelper.delete(itemCurrent);
+                }
+
             }
         });
+    }
+
+    public void setIsFollow(Newspaper newspaper){
+        NewspaperHelper newspaperHelper = new NewspaperHelper(activity);
+        Newspaper mNewspaper = newspaperHelper.get(newspaper.getUrl());
+        if(mNewspaper != null){
+            newspaper.setFollow(true);
+        }else{
+            newspaper.setFollow(false);
+        }
     }
 
 }

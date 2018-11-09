@@ -1,14 +1,13 @@
 package com.finalproject.model;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Newspaper {
     public static final String KEY_LINK = "Link";
     public static final String KEY_TITLE = "Title";
-    @SerializedName("id")
-    @Expose
-    private int id;
 
     @SerializedName("thumb_art")
     @Expose
@@ -26,23 +25,16 @@ public class Newspaper {
     @Expose
     private String url;
 
-    public Newspaper(int id, String thumb_art, String title, String description) {
-        this.id = id;
+    private boolean isFollow = false;
+
+    public Newspaper(String title, String url, String description,String thumb_art) {
         this.thumb_art = thumb_art;
         this.title = title;
         this.description = description;
+        this.url = url;
     }
 
     public Newspaper() {
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -76,5 +68,13 @@ public class Newspaper {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
     }
 }
