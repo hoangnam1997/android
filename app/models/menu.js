@@ -35,7 +35,7 @@ main.getMenu = async () => {
             if (docs.length === 0) {
                 resolve({'datas': {}});
             }
-            resolve({'datas': {'record': docs}});
+            resolve({'datas': docs});
         });
     });
 };

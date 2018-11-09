@@ -7,27 +7,30 @@ let func = require('./../configs/func');
 let main = module.exports = {};
 
 main.get_menu = async (req, res, next) => {
-    let datas = await menuModel.getMenu();
-    if (func.get_length_obj(datas['datas']) === 0) {
-        datas = await crawler.get_menu();
-        menuModel.saveMenu(datas);
+    let datas;
+    if (req._parsedUrl.query === null) {
+        datas = await menuModel.getMenu();
+        if (func.get_length_obj(datas['datas']) === 0) {
+            datas = await crawler.get_menu();
+            menuModel.saveMenu(datas);
+        } else {
+            datas = datas['datas'];
+        }
     } else {
-        datas = datas['datas'];
+        datas = await main.get_id(req._parsedUrl.query);
     }
-    req.result = datas;
+
+    req.result = {record: datas};
     res.send(req.result);
 
 };
-main.get_id = async (req, res, next) => {
-    let params = req.params;
-    let id = params['id'];
+main.get_id = async (query) => {
+    let id = query.split('=')[1];
     let item = await menuModel.getItemId(id);
     let datas = [];
     if (item !== null) {
         datas = await crawler.crawlerData(item['url']);
     }
-
-    req.result = {'record': datas};
-    res.send(req.result);
+    return datas;
 
 };
