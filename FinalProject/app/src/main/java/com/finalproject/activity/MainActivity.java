@@ -1,5 +1,6 @@
 package com.finalproject.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -7,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
 //    set list menu and event click on menu
     public void setMenu(){
 //        set button menu on actionbar
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbarMenu);
+        topToolBar.setTitleTextColor(getResources().getColor(R.color.toolBarColor));
+        setSupportActionBar(topToolBar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);

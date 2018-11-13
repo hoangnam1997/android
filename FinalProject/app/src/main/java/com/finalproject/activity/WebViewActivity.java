@@ -3,6 +3,7 @@ package com.finalproject.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -22,6 +23,9 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     public void setAttributes(){
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbarMenu);
+        topToolBar.setTitleTextColor(getResources().getColor(R.color.toolBarColor));
+        setSupportActionBar(topToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         wvNewspaper = (WebView) findViewById(R.id.wvNewspaper);
         wvNewspaper.setWebViewClient(new WebViewClient());
