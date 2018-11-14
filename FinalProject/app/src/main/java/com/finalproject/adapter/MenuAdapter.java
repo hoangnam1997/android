@@ -39,10 +39,12 @@ public class MenuAdapter extends BaseAdapter {
     List<Category> aCategory;
     private Activity activity;
     private ListView lvContent;
+    private NewspaperAdapter adapterNewspaper;
 
     public MenuAdapter(Activity activity, List<Menu> items) {
         this.activity = activity;
         this.items = items;
+        this.adapterNewspaper = adapterNewspaper;
     }
 
     @Override
@@ -176,8 +178,8 @@ public class MenuAdapter extends BaseAdapter {
             @Override
             public void onResponse(Response<NewspaperResponse> response, Retrofit retrofit) {
                 final List<Newspaper> contents = response.body().getListNewspaper();
-                NewspaperAdapter adapterTest = new NewspaperAdapter(activity,contents);
-                lvContent.setAdapter(adapterTest);
+                adapterNewspaper = new NewspaperAdapter(activity,contents);
+                lvContent.setAdapter(adapterNewspaper);
                 lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -196,8 +198,7 @@ public class MenuAdapter extends BaseAdapter {
     //    start intent for newspaper
     public void getViewNews(Newspaper mNewspaper){
         Intent intent = new Intent(activity,WebViewActivity.class);
-        intent.putExtra(Newspaper.KEY_LINK,mNewspaper.getUrl());
-        intent.putExtra(Newspaper.KEY_TITLE,mNewspaper.getTitle());
+        intent.putExtra(Newspaper.KEY_OBJECT, mNewspaper);
         activity.startActivity(intent);
     }
 

@@ -1,10 +1,11 @@
 package com.finalproject.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu {
+public class Menu implements Serializable {
     public static final String KEY_HOME = "Home";
     public static final String KEY_FOLLOW = "MENU_FOLLOW";
     public static final String KEY_CATEGORY = "MENU_CATEGORY";

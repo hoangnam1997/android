@@ -46,7 +46,7 @@ public class NewspaperAdapter  extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Newspaper itemCurrent = items.get(position);
-        setIsFollow(itemCurrent);
+        itemCurrent.setIsFollow(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         convertView = inflater.inflate(R.layout.item_newspaper, null);
 //        set name of menu
@@ -88,16 +88,6 @@ public class NewspaperAdapter  extends BaseAdapter {
 
             }
         });
-    }
-
-    public void setIsFollow(Newspaper newspaper){
-        NewspaperHelper newspaperHelper = new NewspaperHelper(activity);
-        Newspaper mNewspaper = newspaperHelper.get(newspaper.getUrl());
-        if(mNewspaper != null){
-            newspaper.setFollow(true);
-        }else{
-            newspaper.setFollow(false);
-        }
     }
 
 }

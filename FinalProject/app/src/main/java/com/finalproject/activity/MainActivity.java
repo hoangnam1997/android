@@ -2,6 +2,7 @@ package com.finalproject.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,9 +10,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -35,7 +38,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-
+    private String currentKey;
     private DrawerLayout drawerLayout;
     private LinearLayout contentMain;
     private NavigationView navigationView;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Menu> items;
     private List<Newspaper> contents;
     private ListView lvContent;
+    private NewspaperAdapter adapterNewspaper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
 //    set content view list newspaper by array
     public void setNewspaperByArray(List<Newspaper> listNewspaper){
         contents = listNewspaper;
-        NewspaperAdapter adapterTest = new NewspaperAdapter(MainActivity.this,contents);
-        lvContent.setAdapter(adapterTest);
+        adapterNewspaper= new NewspaperAdapter(MainActivity.this,contents);
+        lvContent.setAdapter(adapterNewspaper);
         lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,8 +150,15 @@ public class MainActivity extends AppCompatActivity {
 //    start intent for newspaper
     public void getViewNews(Newspaper mNewspaper){
         Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
-        intent.putExtra(Newspaper.KEY_LINK,mNewspaper.getUrl());
-        intent.putExtra(Newspaper.KEY_TITLE,mNewspaper.getTitle());
+        intent.putExtra(Newspaper.KEY_OBJECT, mNewspaper);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(lvContent!=null){
+            ((BaseAdapter) lvContent.getAdapter()).notifyDataSetChanged();
+        }
     }
 }
