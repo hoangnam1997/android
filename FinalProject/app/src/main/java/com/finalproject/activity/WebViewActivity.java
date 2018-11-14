@@ -2,6 +2,7 @@ package com.finalproject.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finalproject.R;
+import com.finalproject.adapter.ViewPagerAdapter;
 import com.finalproject.helper.NewspaperHelper;
 import com.finalproject.model.Detail;
 import com.finalproject.model.Newspaper;
@@ -34,6 +36,7 @@ public class WebViewActivity extends AppCompatActivity {
 //    private WebView wvNewspaper;
     private Detail rDetail;
     private TextView txtContent;
+    private ViewPager vbNewspaper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,7 @@ public class WebViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         txtContent = (TextView)findViewById(R.id.txtContent);
         txtContent.setMovementMethod(new ScrollingMovementMethod());
-
-//        wvNewspaper = (WebView) findViewById(R.id.wvNewspaper);
-//        wvNewspaper.setWebViewClient(new WebViewClient());
+        vbNewspaper = (ViewPager) findViewById(R.id.vbNewspaper);
     }
 
 //    set web view
@@ -81,7 +82,6 @@ public class WebViewActivity extends AppCompatActivity {
                     Toast.makeText(WebViewActivity.this, R.string.app_error,Toast.LENGTH_LONG).show();
                 }
             });
-//            wvNewspaper.loadUrl(link);
 //            set title
             getSupportActionBar().setTitle(title);
         }
@@ -125,6 +125,10 @@ public class WebViewActivity extends AppCompatActivity {
 
 //    set view detail
     public void setViewDetail(Detail rDetail){
+//        set content
         txtContent.setText(rDetail.getContentView());
+//        set ViewPager
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this,rDetail.getImgs());
+        vbNewspaper.setAdapter(viewPagerAdapter);
     }
 }
