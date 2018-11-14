@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.finalproject.R;
 import com.finalproject.adapter.ViewPagerAdapter;
 import com.finalproject.helper.NewspaperHelper;
 import com.finalproject.model.Detail;
+import com.finalproject.model.Image;
 import com.finalproject.model.Newspaper;
 import com.finalproject.response.CategoryResponse;
 import com.finalproject.response.DetailResponse;
@@ -128,7 +131,14 @@ public class WebViewActivity extends AppCompatActivity {
 //        set content
         txtContent.setText(rDetail.getContentView());
 //        set ViewPager
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this,rDetail.getImgs());
-        vbNewspaper.setAdapter(viewPagerAdapter);
+        List<Image> listImage = rDetail.getImgs();
+        if(listImage.size() <= 0){
+            ViewGroup.LayoutParams params= vbNewspaper.getLayoutParams();
+            params.height = 0;
+            vbNewspaper.requestLayout();
+        }else{
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this,listImage);
+            vbNewspaper.setAdapter(viewPagerAdapter);
+        }
     }
 }

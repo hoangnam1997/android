@@ -27,17 +27,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <android.support.v4.view.ViewPager
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:id="@+id/vbNewspaper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:paddingBottom="20dp">
-
         </android.support.v4.view.ViewPager>
         <TextView
             android:layout_weight="1"
             android:paddingRight="10dp"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars = "vertical"
