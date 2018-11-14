@@ -4,18 +4,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.finalproject.R;
 import com.finalproject.helper.NewspaperHelper;
+import com.finalproject.model.Detail;
 import com.finalproject.model.Newspaper;
+import com.finalproject.response.CategoryResponse;
+import com.finalproject.response.DetailResponse;
+import com.finalproject.ultils.Server;
+import com.finalproject.ultils.Service;
+import com.google.gson.Gson;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    private WebView wvNewspaper;
+//    private WebView wvNewspaper;
+    private Detail rDetail;
+    private TextView txtContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +49,11 @@ public class WebViewActivity extends AppCompatActivity {
         topToolBar.setTitleTextColor(getResources().getColor(R.color.toolBarColor));
         setSupportActionBar(topToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        wvNewspaper = (WebView) findViewById(R.id.wvNewspaper);
-        wvNewspaper.setWebViewClient(new WebViewClient());
+        txtContent = (TextView)findViewById(R.id.txtContent);
+        txtContent.setMovementMethod(new ScrollingMovementMethod());
+
+//        wvNewspaper = (WebView) findViewById(R.id.wvNewspaper);
+//        wvNewspaper.setWebViewClient(new WebViewClient());
     }
 
 //    set web view
@@ -44,7 +65,24 @@ public class WebViewActivity extends AppCompatActivity {
             clickFollow(newspaper);
             String link = newspaper.getUrl();
             String title = newspaper.getTitle();
-            wvNewspaper.loadUrl(link);
+//            set content
+    //        get data
+            Service mService = Server.getService();
+            mService.getDetail(link).enqueue(new Callback<DetailResponse>(){
+                @Override
+                public void onResponse(Response<DetailResponse> response, Retrofit retrofit) {
+                    rDetail = response.body().getDetail();
+                    if(rDetail!=null){
+                        setViewDetail(rDetail);
+                    }
+                }
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(WebViewActivity.this, R.string.app_error,Toast.LENGTH_LONG).show();
+                }
+            });
+//            wvNewspaper.loadUrl(link);
+//            set title
             getSupportActionBar().setTitle(title);
         }
     }
@@ -83,5 +121,10 @@ public class WebViewActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+//    set view detail
+    public void setViewDetail(Detail rDetail){
+        txtContent.setText(rDetail.getContentView());
     }
 }

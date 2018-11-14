@@ -22,10 +22,18 @@
             android:layout_marginRight="20px"
             />
     </android.support.v7.widget.Toolbar>
-    <WebView
-        android:id="@+id/wvNewspaper"
+    <TextView
+        android:paddingRight="10dp"
+        android:paddingLeft="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:scrollbars = "vertical"
+        android:gravity="top"
+        android:id="@+id/txtContent"/>
+    <!--<WebView-->
+        <!--android:id="@+id/wvNewspaper"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-    </WebView>
+    <!--</WebView>-->
 </LinearLayout>

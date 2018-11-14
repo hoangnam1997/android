@@ -1,8 +1,11 @@
 package com.finalproject.ultils;
 
 import com.finalproject.response.CategoryResponse;
+import com.finalproject.response.DetailResponse;
 import com.finalproject.response.NewspaperResponse;
 
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.Call;
 import retrofit.http.POST;
@@ -17,6 +20,7 @@ public interface Service {
     Call<NewspaperResponse> getNewspaper();
     @GET("/menu")
     Call<NewspaperResponse> getNewspaper(@Query("id") int id);
+    @FormUrlEncoded
     @POST("/detail")
-    Call<NewspaperResponse> getDetail(@Query("url") String url);
+    Call<DetailResponse> getDetail(@Field("url") String url);
 }
