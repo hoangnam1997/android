@@ -93,3 +93,23 @@ main.crawlerApi = (url = 'https://vnexpress.net') => {
         c.queue(url);
     });
 };
+
+main.crawlerDetail = async (url = 'https://vnexpress.net') => {
+    let $ = await main.crawlerApi(url);
+    let datas_img = [];
+    let datas_content = [];
+    let $article_main = $('article.content_detail');
+
+    //lấy all img
+    $article_main.find('table.tplCaption').each((index, ele) => {
+        let url_img = $(ele).find('img').attr('src');
+        let content_img = $(ele).find('p.Image').text().trim('\\');
+        datas_img.push({url_img: url_img, content_img: content_img});
+    });
+
+    //lấy all content
+    $article_main.find('p.Normal').each((index, ele) => {
+        datas_content.push($(ele).text().trim());
+    });
+    return {'imgs': datas_img, contents: datas_content};
+};
