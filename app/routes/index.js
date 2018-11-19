@@ -5,6 +5,7 @@ let router = require('express').Router();
 // Application routes
 router.use('/menu', require('./menu'));
 router.use('/home', require('./home'));
+router.use('/detail', require('./detail'));
 
 router.use((req, res, next) => {
     const err = new Error('Not exist router');

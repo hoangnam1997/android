@@ -1,9 +1,9 @@
 'user strict';
 
 let router = require('express').Router();
-let home = require('./../controllers').home;
+let detail = require('./../controllers').detail;
 
 // Public routes
-router.get('/', home.getData);
+router.post('/', detail.getData);
 
 module.exports = router;
