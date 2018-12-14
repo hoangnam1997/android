@@ -1,32 +1,31 @@
 package com.finalproject.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finalproject.R;
-import com.finalproject.adapter.ViewPagerAdapter;
 import com.finalproject.helper.NewspaperHelper;
 import com.finalproject.model.Detail;
 import com.finalproject.model.Image;
 import com.finalproject.model.Newspaper;
-import com.finalproject.response.CategoryResponse;
 import com.finalproject.response.DetailResponse;
 import com.finalproject.ultils.Server;
 import com.finalproject.ultils.Service;
-import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -38,8 +37,8 @@ public class WebViewActivity extends AppCompatActivity {
 
 //    private WebView wvNewspaper;
     private Detail rDetail;
-    private TextView txtContent;
-    private ViewPager vbNewspaper;
+    private LinearLayoutCompat linearContent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +54,7 @@ public class WebViewActivity extends AppCompatActivity {
         topToolBar.setTitleTextColor(getResources().getColor(R.color.toolBarColor));
         setSupportActionBar(topToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        txtContent = (TextView)findViewById(R.id.txtContent);
-        txtContent.setMovementMethod(new ScrollingMovementMethod());
-        vbNewspaper = (ViewPager) findViewById(R.id.vbNewspaper);
+        linearContent = (LinearLayoutCompat) findViewById(R.id.linearContent);
     }
 
 //    set web view
@@ -129,16 +126,53 @@ public class WebViewActivity extends AppCompatActivity {
 //    set view detail
     public void setViewDetail(Detail rDetail){
 //        set content
-        txtContent.setText(rDetail.getContentView());
-//        set ViewPager
-        List<Image> listImage = rDetail.getImgs();
-        if(listImage.size() <= 0){
-            ViewGroup.LayoutParams params= vbNewspaper.getLayoutParams();
-            params.height = 0;
-            vbNewspaper.requestLayout();
-        }else{
-            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this,listImage);
-            vbNewspaper.setAdapter(viewPagerAdapter);
+        List<Image> aImage = rDetail.getContents();
+        for (int i = 0; i < aImage.size(); i++) {
+            Image image =  aImage.get(i);
+            getViewOfTypeContent(image);
         }
+    }
+
+//    add content to view
+    public void getViewOfTypeContent(final Image image){
+        switch (image.getType()){
+            case Image.KEY_IMG:
+                LayoutInflater inflater = LayoutInflater.from(this);
+                View view = inflater.inflate(R.layout.item_viewpager_newspaper,null,false);
+                final ImageView imageView = (ImageView) view.findViewById(R.id.imgDetail);
+                TextView textView = (TextView) view.findViewById(R.id.txtDetail);
+//              truyen du lieu
+                String a = image.getUrl_img();
+                textView.setText(image.getContent_img());
+//                Picasso.with(this).load(image.getUrl_img()).fit().centerCrop().into(imageView);
+                Picasso.with(this).load(image.getUrl_img()).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        int width = bitmap.getWidth();
+                        int height = bitmap.getHeight();
+                        imageView.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+                linearContent.addView(view);
+                break;
+            case Image.KEY_TEXT:
+                TextView textViewAdd = new TextView(this);
+                textViewAdd.setText(image.getText());
+                linearContent.addView(textViewAdd);
+                break;
+            default:
+                break;
+        }
+
     }
 }

@@ -7,44 +7,32 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Detail implements Serializable {
-    @SerializedName("imgs")
-    @Expose
-    private List<Image> imgs;
     @SerializedName("contents")
     @Expose
-    private List<String> contents;
+    private List<Image> contents;
 
-    public Detail(List<Image> imgs, List<String> contents) {
-        this.imgs = imgs;
+    public Detail(List<Image> contents) {
         this.contents = contents;
     }
     public Detail() {
     }
 
-    public List<Image> getImgs() {
-        return imgs;
-    }
-
-    public void setImgs(List<Image> imgs) {
-        this.imgs = imgs;
-    }
-
-    public List<String> getContents() {
+    public List<Image> getContents() {
         return contents;
     }
 
-    public void setContents(List<String> contents) {
+    public void setContents(List<Image> contents) {
         this.contents = contents;
     }
 
-    public String getContentView(){
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < contents.size(); i++) {
-            result.append(contents.get(i));
-            if (i != contents.size() - 1) {
-                result.append("\n\n");
-            }
-        }
-        return result.toString();
-    }
+//    public String getContentView(){
+//        StringBuilder result = new StringBuilder();
+//        for (int i = 0; i < contents.size(); i++) {
+//            result.append(contents.get(i));
+//            if (i != contents.size() - 1) {
+//                result.append("\n\n");
+//            }
+//        }
+//        return result.toString();
+//    }
 }
