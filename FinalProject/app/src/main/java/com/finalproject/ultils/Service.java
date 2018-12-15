@@ -23,4 +23,6 @@ public interface Service {
     @FormUrlEncoded
     @POST("/detail")
     Call<DetailResponse> getDetail(@Field("url") String url);
+    @GET("/search")
+    Call<NewspaperResponse> getSearchNewspaper(@Query("text") String text);
 }
